@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-
+import  os
 
 class QRCode(QMainWindow):
     def __init__(self):
@@ -19,7 +19,7 @@ class QRCode(QMainWindow):
         self.create_main()
 
         self.generate.clicked.connect(self.QrCoder)
-
+        self.reset.clicked.connect(self.ResetAll)
 
         self.asosiy.addLayout(self.image_board)
         self.asosiy.addLayout(self.info)
@@ -64,6 +64,7 @@ class QRCode(QMainWindow):
 
     def QrCoder(self):
         import qrcode
+
         img = qrcode.make(self.line.text())
         type(img)
 
@@ -78,7 +79,13 @@ class QRCode(QMainWindow):
                     }
                 """)
 
-
+    def ResetAll(self):
+        if os.path.exists("images/test.png"):
+            os.remove("images/test.png")
+            self.image_btn.setStyleSheet("background-image: url('dr.jpg'); border: none;")
+            self.line.setText("")
+        else:
+            pass
 
 app  = QApplication([])
 

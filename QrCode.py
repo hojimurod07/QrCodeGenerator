@@ -64,12 +64,19 @@ class QRCode(QMainWindow):
 
     def QrCoder(self):
         import qrcode
-        from  PIL import  Image
         img = qrcode.make(self.line.text())
-        type(img)  # qrcode.image.pil.PilImage
-        img = img.resize((600, 450), Image.ANTIALIAS)
+        type(img)
+
         img.save("images/test.png")
-        self.image_btn.setStyleSheet("background-image: url('images/test.png'); border: none;")
+        self.image_btn.setStyleSheet("""
+                    QPushButton {
+                        background-image: url('images/test.png');
+                        background-repeat: no-repeat;
+                        background-position: center;
+                      
+                        border: none;
+                    }
+                """)
 
 
 

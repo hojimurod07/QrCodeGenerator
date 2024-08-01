@@ -16,9 +16,13 @@ class QRCode(QMainWindow):
         self.asosiy = QVBoxLayout()
 
         self.create_image_board()
+        self.create_main()
+
+        self.generate.clicked.connect(self.QrCoder)
 
 
         self.asosiy.addLayout(self.image_board)
+        self.asosiy.addLayout(self.info)
         self.w = QWidget()
         self.w.setLayout(self.asosiy)
         self.setCentralWidget(self.w)
@@ -31,6 +35,41 @@ class QRCode(QMainWindow):
         self.image_board.addWidget(self.image_btn)
         self.image_btn.setFixedSize(600,450)
 
+    def create_main(self):
+        self.info = QVBoxLayout()
+        self.btns = QHBoxLayout()
+        self.line = QLineEdit()
+        self.line.setPlaceholderText("Enter your link")
+        self.line.setFixedSize(600,50)
+        self.info.addWidget(self.line)
+        self.line.setStyleSheet("font-size: 20px")
+
+        self.reset = QPushButton(" ")
+        self.reset.setIcon(QIcon("reset.png"))
+        self.reset.setFixedSize(120,60)
+
+        self.btns.addWidget(self.reset)
+
+        self.generate = QPushButton("Generate")
+        self.generate.setStyleSheet("color:white;background-color: #134898;border-radius:10px;border:none;font-size:22px ")
+        self.generate.setStyleSheet("QPushButton::hover"
+                             "{"
+                             "background-color : #C0C2C4;"
+                             "}")
+
+        self.generate.setFixedSize(120, 60)
+        self.btns.addWidget(self.generate)
+        self.info.addLayout(self.btns)
+
+
+    def QrCoder(self):
+        import qrcode
+        from  PIL import  Image
+        img = qrcode.make(self.line.text())
+        type(img)  # qrcode.image.pil.PilImage
+        img = img.resize((600, 450), Image.ANTIALIAS)
+        img.save("images/test.png")
+        self.image_btn.setStyleSheet("background-image: url('images/test.png'); border: none;")
 
 
 
